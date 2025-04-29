@@ -163,6 +163,7 @@ pub fn Hud() -> impl IntoView {
             </div>
             <button
                 class="hud-settings"
+                id="hud-settings"
                 on:click=move |_| { set_show_menu.set(true) }
             >
                 <img src=icons::SETTINGS/>

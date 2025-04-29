@@ -155,3 +155,8 @@ pub fn send_click(id: &str) {
     let document = web_sys::window().unwrap().document().unwrap();
     document.get_element_by_id(id).unwrap().dyn_into::<web_sys::HtmlElement>().unwrap().click();
 }
+
+pub fn send_focus(id: &str) {
+    let document = web_sys::window().unwrap().document().unwrap();
+    let _ = document.get_element_by_id(id).unwrap().dyn_into::<web_sys::HtmlElement>().unwrap().focus();
+}

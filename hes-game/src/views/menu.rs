@@ -14,6 +14,7 @@ use hes_engine::State;
 use js_sys::Date;
 use leptos::*;
 use leptos_use::use_interval_fn;
+use leptos_hotkeys::{use_hotkeys,use_hotkeys_context,HotkeysContext};
 
 const LOCALES: &[&str] = &[
     "Havana",
@@ -71,14 +72,27 @@ pub fn Menu(set_open: WriteSignal<bool>) -> impl IntoView {
     };
     let time_place =
         move || format!("{}, {}", locale(), year.get());
+    
+    const SCOPE: &str = "menu";
+    let HotkeysContext { disable_scope, enable_scope, .. } = use_hotkeys_context();
+    enable_scope.call(SCOPE.to_string());
+
+    let close = move || {
+        set_open.set(false);
+        disable_scope.call(SCOPE.to_string());
+    };
+
+    use_hotkeys!(("escape", SCOPE) => move |_| {
+        close();
+    });
 
     view! {
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" id="dropdown-menu">
             <div class="dropdown-menu-content">
                 <div
                     class="dropdown-menu-close dropdown-menu-button btn"
                     on:click=move |_| {
-                        set_open.set(false);
+                        close();
                     }
                 >
                     <img src=icons::CLOSE/>

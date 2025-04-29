@@ -6,10 +6,10 @@ mod tabs;
 
 pub use active_plan::ActivePlan;
 use hes_engine::{EventPhase, Flag, State};
-use leptos_hotkeys::use_hotkeys;
 pub use processes::Processes;
 pub use projects::Projects;
 use tabs::{Dashboard, Parliament, Plan, Regions};
+use leptos_hotkeys::{use_hotkeys, use_hotkeys_context, HotkeysContext};
 use crate::util::send_click;
 
 use crate::{
@@ -58,20 +58,29 @@ pub fn Planning() -> impl IntoView {
     let game = expect_context::<RwSignal<State>>();
     let ui = expect_context::<RwSignal<UIState>>();
 
-    use_hotkeys!(("keyp") => move |_| {
+    let HotkeysContext { disable_scope, enable_scope, .. } = use_hotkeys_context();
+    let SCOPE: &str = "planning";
+
+    enable_scope.call(SCOPE.to_string());
+
+    use_hotkeys!(("keyp", SCOPE) => move |_| {
         send_click("tab-Plan");
     });
 
-    use_hotkeys!(("keyg") => move |_| {
+    use_hotkeys!(("keyg", SCOPE) => move |_| {
         send_click("tab-Parliament");
     });
 
-    use_hotkeys!(("keys") => move |_| {
+    use_hotkeys!(("keys", SCOPE) => move |_| {
         send_click("tab-Dashboard");
     });
 
-    use_hotkeys!(("keyw") => move |_| {
+    use_hotkeys!(("keyw", SCOPE) => move |_| {
         send_click("tab-Regions");
+    });
+
+    use_hotkeys!(("escape", SCOPE) => move |_| {
+        send_click("hud-settings");
     });
 
     audio::play_phase_music("/assets/music/planning.mp3", true);
