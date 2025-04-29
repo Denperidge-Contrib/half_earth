@@ -974,14 +974,19 @@ strong{
   top: -1px;
   position: relative;
 }
-
+.hud button {
+  background: none;
+  color: white;
+  border: none;
+  padding: 0;
+}
 .hud-bars {
   display: flex;
   flex: 1;
   justify-content: space-around;
   max-width: 320px;
 }
-.hud-bars > div {
+.hud-bars > div, .hud-bars > button {
   margin: 0 0.25em;
 }
 

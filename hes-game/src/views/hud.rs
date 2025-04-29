@@ -120,34 +120,34 @@ pub fn Hud() -> impl IntoView {
             </div>
             <div class="hud-bars">
                 <HasTip tip=pc_tip.into_signal()>
-                    <div class:warnPc=pc_danger>
+                    <button class:warnPc=pc_danger>
                         <img src=icons::HUD_POLITICAL_CAPITAL/>
                         {pc}
-                    </div>
+                    </button>
                 </HasTip>
                 <HasTip tip=biodiversity_tip.into_signal()>
-                    <div>
+                    <button>
                         <img src=icons::HUD_EXTINCTION_RATE/>
                         <IntensityBar intensity=extinction.into_signal()/>
-                    </div>
+                    </button>
                 </HasTip>
                 <HasTip tip=contentedness_tip.into_signal()>
-                    <div class:bad=unhappy>
+                    <button class:bad=unhappy>
                         <img src=icons::HUD_CONTENTEDNESS/>
                         <IntensityBar
                             intensity=contentedness.into_signal()
                             invert=true
                         />
-                    </div>
+                    </button>
                 </HasTip>
                 <HasTip tip=warming_tip.into_signal()>
-                    <div>
+                    <button>
                         <img src=icons::HUD_WARMING/>
                         <IntensityBar intensity=warming.into_signal()/>
-                    </div>
+                    </button>
                 </HasTip>
                 <HasTip tip=emissions_tip.into_signal()>
-                    <div>
+                    <button>
                         <img src=icons::HUD_EMISSIONS/>
                         <Show
                             when=emissions_up
@@ -158,16 +158,16 @@ pub fn Hud() -> impl IntoView {
 
                             <span class="emissions-up">"↑"</span>
                         </Show>
-                    </div>
+                    </button>
                 </HasTip>
             </div>
-            <div
+            <button
                 class="hud-settings"
                 on:click=move |_| { set_show_menu.set(true) }
             >
                 <img src=icons::SETTINGS/>
                 <span>{t!("Menu")}</span>
-            </div>
+            </button>
         </div>
     }
 }
