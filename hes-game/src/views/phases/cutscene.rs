@@ -76,6 +76,7 @@ pub fn Cutscene() -> impl IntoView {
         <div
             ref=main_ref
             class="cutscene"
+            id="cutscene"
             style:background-image=background
         >
             <Events

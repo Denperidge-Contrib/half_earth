@@ -131,7 +131,9 @@ pub fn Dialogue(
             return;
         }
 
-        tabindex_focus("dialogue", true);
+        tabindex_focus("dialogue", 1, false);
+        tabindex_focus("hud", -1, false);
+        tabindex_focus("planning", -1, false);
 
         set_revealed.set(false);
         on_start.call(());
@@ -148,7 +150,9 @@ pub fn Dialogue(
     let has_decision = move || line.get().has_decision();
 
     let end = move || {
-        tabindex_focus("dialogue", false);
+        tabindex_focus("dialogue", 0, false);
+        tabindex_focus("hud", 0, false);
+        tabindex_focus("planning", 0, false);
         if let Some(stop_anim) = stop_anim.get() {
             stop_anim();
             set_revealed.set(false);

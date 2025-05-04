@@ -184,31 +184,25 @@ fn apply_tabindex(elements: NodeList, value: i32) {
     }
 }
 
-pub fn tabindex_focus(id: &str, lock_focus: bool) {
+pub fn tabindex_focus(id: &str, tabindex: i32, reverse_non_selected: bool) {
     let document = web_sys::window().unwrap().document().unwrap();
 
     let id_elements = document.query_selector_all(
         format!(
             "#{id} a,#{id} area,#{id} button,#{id} frame,#{id} iframe,#{id} input,#{id} object,#{id} select,#{id} textarea,#{id} svg a,#{id} summary", 
             id=id).as_str()).unwrap();
-    let non_id_elements = document.query_selector_all(
-        format!(
-            "a:not(#{id}),area:not(#{id} *),button:not(#{id} *),frame:not(#{id} *),iframe:not(#{id} *),input:not(#{id} *),object:not(#{id} *),select:not(#{id} *),textarea:not(#{id} *),svg a:not(#{id} *),summary:not(#{id} *)",
-            id=id).as_str()).unwrap();
 
+    apply_tabindex(id_elements, tabindex);
 
-    if lock_focus {
-        apply_tabindex(id_elements, 1);
-        apply_tabindex(non_id_elements, -1);
-    } else {
-        //apply_tabindex(id_elements, -1);
-        apply_tabindex(non_id_elements, 0);
-    };
-
-    /*
-    console_log(id_elements);
-    console_log(non_id_elements);
-     */
-    //id_elements.get(0).unwrap()
-
+    if tabindex != 0 && reverse_non_selected {
+        let non_id_elements = document.query_selector_all(
+            format!(
+                "a:not(#{id}),area:not(#{id} *),button:not(#{id} *),frame:not(#{id} *),iframe:not(#{id} *),input:not(#{id} *),object:not(#{id} *),select:not(#{id} *),textarea:not(#{id} *),svg a:not(#{id} *),summary:not(#{id} *)",
+                id=id).as_str()).unwrap();
+        if tabindex > 0 {
+            apply_tabindex(non_id_elements, -1);
+        } else {
+            apply_tabindex(non_id_elements, 1);
+        }
+    }
 }

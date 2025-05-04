@@ -208,7 +208,7 @@ pub fn Planning() -> impl IntoView {
     view! {
         <Hud/>
         <Events events on_done />
-        <div class="planning">
+        <div class="planning" id="planning">
             <header>
                 {move || tab(t!("Plan"), Page::Plan, Tutorial::Plan)}
                 {move || tab(

@@ -15,6 +15,7 @@ use crate::{
 use hes_engine::State;
 use leptos::*;
 use std::time::Duration;
+use crate::util::{get_element,tabindex_focus};
 
 #[component]
 pub fn Hud() -> impl IntoView {
@@ -114,7 +115,7 @@ pub fn Hud() -> impl IntoView {
                 <Menu set_open=set_show_menu/>
             </div>
         </AnimatedShow>
-        <div class="hud">
+        <div class="hud" id="hud">
             <div class="hud-year">
                 <div>{year}</div>
             </div>
