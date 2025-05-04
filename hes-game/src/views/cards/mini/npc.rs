@@ -47,16 +47,16 @@ pub fn MiniNPC(
     view! {
         <MiniCard>
             <Body slot>
-                <div class="mini-character">
+                <span class="mini-character">
                     <img src=portrait/>
-                </div>
-                <div class="mini-npc-name">{name}</div>
-                <div class="mini-npc-seats">{faction_seats}</div>
+                </span>
+                <span class="mini-npc-name">{name}</span>
+                <span class="mini-npc-seats">{faction_seats}</span>
                 <Show when=is_ally>
-                    <div class="mini-npc-tag npc-tag">
+                    <span class="mini-npc-tag npc-tag">
                         <img src=icons::ALLY/>
                         {t!("Ally")}
-                    </div>
+                    </span>
                 </Show>
             </Body>
             <Expanded slot>

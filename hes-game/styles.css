@@ -87,6 +87,7 @@ main {
 }
 
 button {
+  font-family: 'Times Ten', monospace;
   padding: 0.5em 1em;
   border: 1px solid #000;
   cursor: pointer;
@@ -3460,7 +3461,7 @@ color: #63FF96;
 
 .plan--production--processes .miniprocess--wrapper .minicard {
   height: 110px;
-  width: auto;
+  width: 100%;
   /* border: 1px dotted rgba(0,0,0,0.5); */
   box-shadow: inset 1px 1px 0px rgb(0 0 0 / 50%);
   border-right: 1px solid rgba(255,255,255,0.5);
@@ -4063,6 +4064,9 @@ color: #63FF96;
   max-width: 560px;
   margin: 2em auto 0;
 }
+.parliament .minicard-grid-item button {
+  color: #fff;
+}
 .parliament .minicard-grid-item {
   background: #965FA9;
   border-right: 1px solid #333;
@@ -4388,6 +4392,13 @@ color: #63FF96;
   }
 }
 
+/* Minicard button reset */
+button.minicard {
+  background: none;
+  border: none;
+  box-shadow:  none;
+}
+
 .minicard {
   border-radius: 0.9rem;
   padding: 0.5em;
@@ -4401,6 +4412,7 @@ color: #63FF96;
   position: relative;
   overflow: hidden;
   transition: all 200ms ease-out;
+  font-size: 16px;
 
   image-rendering: auto;
 }

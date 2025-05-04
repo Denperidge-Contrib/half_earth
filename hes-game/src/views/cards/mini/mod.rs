@@ -44,13 +44,13 @@ pub fn MiniCard(
     let expanded = store_value(expanded);
 
     view! {
-        <div
+        <button
             class=format!("minicard {}", class.get())
             style:border=border
             on:click=expand
         >
             {(body.children)().into_view()}
-        </div>
+        </button>
         <AnimatedShow
             when=is_expanded
             show_class="opacityfade-enter-active"
