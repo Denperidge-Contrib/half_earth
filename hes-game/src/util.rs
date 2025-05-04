@@ -4,7 +4,7 @@ use hes_engine::flavor::{Image, ImageData};
 use html::ElementDescriptor;
 use leptos::{wasm_bindgen::JsCast, *};
 use leptos_use::use_window;
-use web_sys::HtmlCollection;
+use web_sys::{HtmlCollection, NodeList};
 
 /// Iteratively scale text (by decreasing the font size) until it fits
 /// or reaches the `min_size`.
@@ -147,4 +147,68 @@ pub impl Image {
             ),
         }
     }
+}
+
+pub fn get_element(id: &str) -> web_sys::HtmlElement {
+    // TODO: use a shared document instance perhaps? This feels dirty
+    // But this is the first Rust code I've written so I don't know how to do that
+    let document = web_sys::window().unwrap().document().unwrap();
+    return document.get_element_by_id(id).unwrap().dyn_into::<web_sys::HtmlElement>().unwrap();
+}
+
+/*
+pub fn get_dialog(id: &str) -> web_sys::HtmlDialogElement {
+    let document = web_sys::window().unwrap().document().unwrap();
+    return document.get_element_by_id(id).unwrap().dyn_into::<web_sys::HtmlDialogElement>().unwrap();
+}
+     */
+
+const FOCUSSABLE_ELEMENTS_IN: &str = "#{id} a,#{id} area,#{id} button,#{id} frame,#{id} iframe,#{id} input,#{id} object,#{id} select,#{id} textarea,#{id} svg a,#{id} summary";
+const FOCUSSABLE_ELEMENTS_EXCEPT: &str = "a:not(#{id}),area:not(#{id}),button:not(#{id}),frame:not(#{id}),iframe:not(#{id}),input:not(#{id}),object:not(#{id}),select:not(#{id}),textarea:not(#{id}),svg a:not(#{id}),summary:not(#{id})";
+
+
+fn apply_tabindex(elements: NodeList, value: i32) {
+    // Possible to do queryselectorall without dyn_into'ing everything?
+
+    let length: u32 = elements.length();
+
+    for i in 0..=length {
+        let option = elements.get(i);
+        
+        if (option.is_some()) {
+            option.unwrap()
+                .dyn_into::<web_sys::HtmlElement>().unwrap()
+                .set_tab_index(value);
+        }
+
+    }
+}
+
+pub fn tabindex_focus(id: &str, lock_focus: bool) {
+    let document = web_sys::window().unwrap().document().unwrap();
+
+    let id_elements = document.query_selector_all(
+        format!(
+            "#{id} a,#{id} area,#{id} button,#{id} frame,#{id} iframe,#{id} input,#{id} object,#{id} select,#{id} textarea,#{id} svg a,#{id} summary", 
+            id=id).as_str()).unwrap();
+    let non_id_elements = document.query_selector_all(
+        format!(
+            "a:not(#{id}),area:not(#{id} *),button:not(#{id} *),frame:not(#{id} *),iframe:not(#{id} *),input:not(#{id} *),object:not(#{id} *),select:not(#{id} *),textarea:not(#{id} *),svg a:not(#{id} *),summary:not(#{id} *)",
+            id=id).as_str()).unwrap();
+
+
+    if lock_focus {
+        apply_tabindex(id_elements, 1);
+        apply_tabindex(non_id_elements, -1);
+    } else {
+        //apply_tabindex(id_elements, -1);
+        apply_tabindex(non_id_elements, 0);
+    };
+
+    /*
+    console_log(id_elements);
+    console_log(non_id_elements);
+     */
+    //id_elements.get(0).unwrap()
+
 }

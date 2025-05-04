@@ -3,6 +3,7 @@ use std::{collections::BTreeMap, rc::Rc};
 use crate::{
     icons::fill_icons,
     t,
+    util::tabindex_focus,
     views::{effects::DisplayEffect, Effects},
 };
 use ev::MouseEvent;
@@ -130,6 +131,8 @@ pub fn Dialogue(
             return;
         }
 
+        tabindex_focus("dialogue", true);
+
         set_revealed.set(false);
         on_start.call(());
         play();
@@ -145,6 +148,7 @@ pub fn Dialogue(
     let has_decision = move || line.get().has_decision();
 
     let end = move || {
+        tabindex_focus("dialogue", false);
         if let Some(stop_anim) = stop_anim.get() {
             stop_anim();
             set_revealed.set(false);
@@ -223,7 +227,7 @@ pub fn Dialogue(
             // The whole dialogue system was really written with
             // events in mind; it'd be a pretty big rewrite to
             // fully support project dialogues with branch effects.
-            // So we just assume project dialogues won't have branch effects
+            // So we just assumplaye project dialogues won't have branch effects
             // which, at time of writing, none of them do.
             if event_id.get().is_some() {
                 update!(|game| {
@@ -263,9 +267,9 @@ pub fn Dialogue(
     let actions = move || {
         if is_last_line() {
             view! {
-                <div class="dialogue--choice" on:click=move |_| end()>
+                <button class="dialogue--choice" on:click=move |_| end()>
                     {t!("Continue")}
-                </div>
+                </button>
             }
             .into_view()
         } else if let Some(DialogueNext::Responses(responses)) =
@@ -277,21 +281,21 @@ pub fn Dialogue(
                 .map(|branch| {
                     let (sig, _) = create_signal(branch);
                     view! {
-                        <div
+                        <button
                             class="dialogue--choice"
                             on:click=move |ev| select_choice(ev, &sig.get())
                         >
                             {move || t!(& sig.get().text)}
-                        </div>
+                        </button>
                     }
                 })
                 .collect::<Vec<_>>()
                 .into_view()
         } else {
             view! {
-                <div class="dialogue--choice" on:click=move |_| advance()>
+                <button class="dialogue--choice" on:click=move |_| advance()>
                     {t!("Next")}
-                </div>
+                </button>
             }
             .into_view()
         }
@@ -308,7 +312,7 @@ pub fn Dialogue(
     };
 
     view! {
-        <div class="dialogue">
+        <div class="dialogue" id="dialogue">
             <div class="dialogue--inner">
                 <div class="dialogue--speech">
                     <Show when=move || speaker() != Speaker::Game>
