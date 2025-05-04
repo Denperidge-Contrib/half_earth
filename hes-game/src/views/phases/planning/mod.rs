@@ -112,7 +112,7 @@ pub fn Planning() -> impl IntoView {
             let highlight = cur_tutorial.get() == tutorial;
             let disabled = cur_tutorial.get() < tutorial;
             view! {
-                <div
+                <button
                     class="planning--tab"
                     class:active=active
                     class:highlight=highlight
@@ -123,7 +123,7 @@ pub fn Planning() -> impl IntoView {
                 >
 
                     {label}
-                </div>
+                </button>
             }
         };
 
