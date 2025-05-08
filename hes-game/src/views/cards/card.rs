@@ -69,7 +69,7 @@ pub fn Card(
     };
     let is_process = process_mix.is_some();
 
-    let card_ref = create_node_ref::<html::Div>();
+    let card_ref = create_node_ref::<html::Button>();
     let name_ref = create_node_ref::<html::Div>();
     let body_ref = create_node_ref::<html::Div>();
 
@@ -110,7 +110,7 @@ pub fn Card(
     });
 
     view! {
-        <div
+        <button
             class=move || format!("card {}", class.get())
             ref=card_ref
             on:click=flip
@@ -218,6 +218,6 @@ pub fn Card(
                     }
                 })}
 
-        </div>
+        </button>
     }
 }

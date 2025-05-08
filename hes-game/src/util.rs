@@ -156,6 +156,12 @@ pub fn get_element(id: &str) -> web_sys::HtmlElement {
     return document.get_element_by_id(id).unwrap().dyn_into::<web_sys::HtmlElement>().unwrap();
 }
 
+// Safer and full selector based version of the above
+pub fn get_element_if_exists(selector: &str) -> Option<web_sys::HtmlElement> {
+    let document = web_sys::window().unwrap().document().unwrap();
+    return document.query_selector(selector).map_or(None, |elem_option| elem_option.map(|elem| elem.dyn_into::<web_sys::HtmlElement>().unwrap()));
+}
+
 /*
 pub fn get_dialog(id: &str) -> web_sys::HtmlDialogElement {
     let document = web_sys::window().unwrap().document().unwrap();
@@ -205,4 +211,12 @@ pub fn tabindex_focus(id: &str, tabindex: i32, reverse_non_selected: bool) {
             apply_tabindex(non_id_elements, 1);
         }
     }
+}
+
+// It's like event_target, but for the related one!
+pub fn event_related_target(ev: web_sys::FocusEvent) -> Option<web_sys::HtmlElement> {
+    return ev.related_target()
+        .map(|related_event_target| 
+            related_event_target.dyn_into::<web_sys::HtmlElement>()
+        .unwrap());
 }

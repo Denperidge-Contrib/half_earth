@@ -4,9 +4,12 @@ use crate::{
     icons,
     t,
     views::{tip, HasTip},
+    util::{get_element_if_exists, event_related_target},
 };
 use hes_engine::NPC;
 use leptos::*;
+use web_sys::FocusEvent;
+use leptos::wasm_bindgen::JsCast;
 
 #[component]
 pub fn NPCCard(
@@ -75,23 +78,33 @@ pub fn NPCCard(
     let likes = move || with!(|npc| t!(&npc.flavor.likes));
     let dislikes =
         move || with!(|npc| t!(&npc.flavor.dislikes));
+    
+    let collapse = move |ev: FocusEvent| {
+        event_related_target(ev).map(|target| {
+            if target.class_name().contains("minicard") {
+                get_element_if_exists(".minicard--expanded")
+                    .map(|background| background.click());
+            }
+        });
+
+    };
 
     view! {
-        <Card class="npc" background="#724680">
+        <Card class="npc" background="#724680" on:blur=collapse>
             <Header slot>
                 <div>{t!("Parliament")}</div>
                 <HasTip tip=rel_tip.into_signal()>
-                    <div>{hearts}</div>
+                    <span>{hearts}</span>
                 </HasTip>
             </Header>
             <Figure slot>
                 <img src=portrait/>
             </Figure>
             <Name slot>
-                <div class="npc-tag">
+                <span class="npc-tag">
                     <img src=rel_icon/>
                     {rel_name}
-                </div>
+                </span>
                 {name}
             </Name>
             <Body slot>{effects}</Body>
@@ -100,16 +113,16 @@ pub fn NPCCard(
                 <p class="card-desc npc-desc">{description}</p>
             </TopBack>
             <BottomBack slot>
-                <div class="likes-dislikes">
-                    <div>
+                <span class="likes-dislikes">
+                    <span>
                         <h3>{t!("Likes")}</h3>
                         <p>{likes}</p>
-                    </div>
-                    <div>
+                    </span>
+                    <span>
                         <h3>{t!("Dislikes")}</h3>
                         <p>{dislikes}</p>
-                    </div>
-                </div>
+                    </span>
+                </span>
             </BottomBack>
         </Card>
     }

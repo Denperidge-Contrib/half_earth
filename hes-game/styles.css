@@ -1394,6 +1394,11 @@ header .dropdown-menu-inset {
   z-index: 15;
 }
 
+button.card {
+  box-shadow: none;
+  border: none;
+  font-size: 1rem;
+}
 .card {
   position: relative;
   width: 280px;
