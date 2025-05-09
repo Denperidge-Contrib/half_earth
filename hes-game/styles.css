@@ -87,6 +87,7 @@ main {
 }
 
 button {
+  font-size: 1rem;
   font-family: 'Times Ten', monospace;
   padding: 0.5em 1em;
   border: 1px solid #000;
@@ -2948,7 +2949,11 @@ color: #63FF96;
   width: 26px;
   margin-right: 5px;
 }
-.dashboard-breakdown-menu > div {
+.dashboard-breakdown-menu > button {
+  border: none;
+  box-shadow: none;
+  background: none;
+  width: 100%;
   padding: 0.5em 2em;
   border-bottom: 1px solid #93856c;
   border-top: 1px solid #fff;
@@ -2956,13 +2961,13 @@ color: #63FF96;
   align-items: center;
   text-transform: capitalize;
 }
-.dashboard-breakdown-menu > div:hover {
+.dashboard-breakdown-menu > button:hover {
   background: #d7c5a5;
 }
-.dashboard-breakdown-menu > div:first-child {
+.dashboard-breakdown-menu > button:first-child {
   border-top: none;
 }
-.dashboard-breakdown-menu > div:last-child {
+.dashboard-breakdown-menu > button:last-child {
   border-bottom: none;
   cursor: pointer;
 }

@@ -14,7 +14,7 @@ use crate::{
     memo,
     state::{StateExt, UIState, FACTORS},
     t,
-    util::to_ws_el,
+    util::{to_ws_el,tabindex_focus,get_element_if_exists},
     vars::Var,
     views::{
         factors::{factors_card, FactorsList},
@@ -499,18 +499,19 @@ pub fn Dashboard() -> impl IntoView {
         view! {
             <Show when=move || show_breakdown_menu.get()>
                 <div class="dashboard-breakdown-menu-overlay">
-                    <div class="dashboard-breakdown-menu">
+                    <div class="dashboard-breakdown-menu" id="dashboard-breakdown-menu">
                         {move || {
                             Var::iter()
                                 .map(|var| {
                                     view! {
-                                        <div on:click=move |_| {
+                                        <button on:click=move |_| {
                                             set_breakdown_factor.set(var);
                                             set_show_breakdown_menu.set(false);
+                                            tabindex_focus("dashboard-breakdown-menu", -1, true);
                                         }>
                                             <img class="pip-icon" src=var.icon()/>
                                             {t!(var.title())}
-                                        </div>
+                                        </button>
                                     }
                                 })
                                 .collect::<Vec<_>>()
@@ -530,14 +531,18 @@ pub fn Dashboard() -> impl IntoView {
                 {water_view} {biodiversity_view} {sea_level_rise_view}
                 {population_view} {income_view} {habitability_view}
             </div> <div class="dashboard-breakdown">
-                <div
+                <button
                     class="dashboard-breakdown-select btn"
-                    on:click=move |_| set_show_breakdown_menu.set(true)
+                    on:click=move |_| { 
+                        set_show_breakdown_menu.set(true);
+                        tabindex_focus("dashboard-breakdown-menu", 1, true);
+                        get_element_if_exists(".dashboard-breakdown-menu button").map(|elem| elem.focus());
+                    }
                 >
                     <img class="pip-icon" src=icon/>
                     {name}
                     "▼"
-                </div>
+                </button>
                 <PieChart
                     dataset=dataset
                     colors=move || breakdown_factor.get().color()
