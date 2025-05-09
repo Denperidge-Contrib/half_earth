@@ -98,15 +98,15 @@ pub fn Regions() -> impl IntoView {
                 on_click=on_globe_click
             />
             <div class="regions-browse">
-                <div class="region-change btn" on:click=prev_region>
+                <button class="region-change btn" on:click=prev_region>
                     <img src=icons::ARROW_LEFT/>
-                </div>
+                </button>
                 <div class="region-name cell" ref=region_name_ref>
                     {region_name}
                 </div>
-                <div class="region-change btn" on:click=next_region>
+                <button class="region-change btn" on:click=next_region>
                     <img src=icons::ARROW_RIGHT/>
-                </div>
+                </button>
             </div>
             <div class="regions-region">
                 <RegionItem region/>

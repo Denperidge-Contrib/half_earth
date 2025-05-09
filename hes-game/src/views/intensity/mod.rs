@@ -53,9 +53,9 @@ pub fn IntensityIcon(
     #[prop(optional, default=N_PIPS)] max_pips: usize,
 ) -> impl IntoView {
     view! {
-        <div class="card-icon intensity-icon">
+        <button class="card-icon intensity-icon">
             <img class="pip-icon" src=icon/>
             <IntensityBar intensity=intensity invert=invert max_pips/>
-        </div>
+        </button>
     }
 }

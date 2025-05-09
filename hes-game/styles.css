@@ -1937,6 +1937,13 @@ to be centered */
   color: #a5a5a5;
 }
 
+button.intensity-icon {
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
 .card-icon.intensity-icon img {
   pointer-events: none;
 }
@@ -1990,6 +1997,7 @@ to be centered */
   border-radius: 0.2em;
 }
 .region-stat {
+  border: none;
   color: #fff;
   padding: 0.3em 0.4em 0.2em 0.4em;
   border-radius: 0.5em;

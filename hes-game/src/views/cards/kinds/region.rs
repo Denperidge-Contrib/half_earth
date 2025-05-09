@@ -88,23 +88,23 @@ pub fn RegionCard(
                         icons::WARMING,
                         t!("This region's current temperature range."),
                     )>
-                        <div class="region-stat">
+                        <button class="region-stat">
                             <img src=icons::WARMING/>
                             {temp_range}
-                        </div>
+                        </button>
                     </HasTip>
                     <br/>
                     <HasTip tip=tip(
                         icons::PRECIPITATION,
                         t!("This region's current precipitation range."),
                     )>
-                        <div
+                        <button
                             class="region-stat"
                             v-tip="{icon: 'precipitation', text: ''}"
                         >
                             <img src=icons::PRECIPITATION/>
                             {precip_range}
-                        </div>
+                        </button>
                     </HasTip>
                 </div>
                 <Show when=seceded>

@@ -137,7 +137,7 @@ pub fn RegionItem(
             };
 
             view! {
-                <div class:max-level=is_max_level>
+                <div tabindex="0" role="button" class:max-level=is_max_level>
                     <span>{t!("Development Progress")}: </span>
                     <Show
                         when=move || !is_max_level
@@ -229,16 +229,16 @@ pub fn RegionItem(
                 </Show>
                 <div>
                     <HasTip tip=temp_tip.into_signal()>
-                        <div class="region-stat">
+                        <button class="region-stat">
                             <img src=icons::TEMPERATURE/>
                             {temp_range}
-                        </div>
+                        </button>
                     </HasTip>
                     <HasTip tip=precip_tip.into_signal()>
-                        <div class="region-stat">
+                        <button class="region-stat">
                             <img src=icons::PRECIPITATION/>
                             {precip_range}
-                        </div>
+                        </button>
                     </HasTip>
                 </div>
 
